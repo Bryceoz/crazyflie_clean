@@ -54,6 +54,9 @@
 #include <std_msgs/Empty.h>
 #include <math.h>
 
+#include "dji_sdk_demo/demo_flight_control.h"
+#include "dji_sdk/dji_sdk.h"
+
 namespace crazyflie_takeoff {
 
 class TakeoffServer {
@@ -70,6 +73,7 @@ private:
   // Load parameters and register callbacks.
   bool LoadParameters(const ros::NodeHandle& n);
   bool RegisterCallbacks(const ros::NodeHandle& n);
+  bool DJITakeoffSetup(const ros::NodeHandle& n);
 
   // Takeoff service. Set in_flight_ flag to true.
   bool TakeoffService(std_srvs::Empty::Request& req,
@@ -79,8 +83,33 @@ private:
   bool LandService(std_srvs::Empty::Request& req,
                    std_srvs::Empty::Response& res);
 
+
+
   // Timer callback for refreshing landing control signal.
   void TimerCallback(const ros::TimerEvent& e);
+
+
+
+  //DJI M100 Variables
+  const float deg2rad = C_PI/180.0;
+  const float rad2deg = 180.0/C_PI;
+
+  ros::ServiceClient set_local_pos_reference;
+  ros::ServiceClient sdk_ctrl_authority_service;
+  ros::ServiceClient drone_task_service;
+  ros::ServiceClient query_version_service;
+
+  ros::Publisher ctrlPosYawPub;
+  ros::Publisher ctrlBrakePub;
+
+  // global variables for subscribed topics
+  uint8_t flight_status = 255;
+  uint8_t display_mode  = 255;
+  sensor_msgs::NavSatFix current_gps;
+  geometry_msgs::Quaternion current_atti;
+  geometry_msgs::Point current_local_pos;
+
+  Mission square_mission;
 
   // Publishers, subscribers, and topics.
   ros::Publisher control_pub_;
