@@ -42,6 +42,26 @@
 
 #include <crazyflie_takeoff/takeoff_server.h>
 
+//DJI M100 Variables
+const float deg2rad = C_PI/180.0;
+const float rad2deg = 180.0/C_PI;
+
+ros::ServiceClient set_local_pos_reference;
+ros::ServiceClient sdk_ctrl_authority_service;
+ros::ServiceClient drone_task_service;
+ros::ServiceClient query_version_service;
+
+ros::Publisher ctrlPosYawPub;
+ros::Publisher ctrlBrakePub;
+
+// DJI: global variables for subscribed topics
+uint8_t flight_status = 255;
+uint8_t display_mode  = 255;
+sensor_msgs::NavSatFix current_gps;
+geometry_msgs::Quaternion current_atti;
+geometry_msgs::Point current_local_pos;
+Mission square_mission;
+
 namespace crazyflie_takeoff {
 // Initialize this node.
 bool TakeoffServer::Initialize(const ros::NodeHandle& n) {
@@ -193,7 +213,7 @@ DJITakeoffSetup(const ros::NodeHandle& n) {
   return true;
 }
 
-int DJITakeoff()
+int TakeoffServer::DJITakeoff()
 {
 
   bool obtain_control_result = obtain_control();
@@ -298,6 +318,7 @@ TakeoffService(std_srvs::Empty::Request& req, std_srvs::Empty::Response& res) {
 /*! Very simple calculation of local NED offset between two pairs of GPS
 /coordinates. Accurate when distances are small.
 !*/
+
 void
 localOffsetFromGpsOffset(geometry_msgs::Vector3&  deltaNed,
                          sensor_msgs::NavSatFix& target,
