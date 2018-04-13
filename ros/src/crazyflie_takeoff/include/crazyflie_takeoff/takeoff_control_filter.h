@@ -51,6 +51,12 @@
 #include <ros/ros.h>
 #include <std_msgs/Empty.h>
 
+//************************************************
+//These need to be included from the the original ROS sample
+#include "dji_sdk_demo/demo_flight_control.h"
+#include "dji_sdk/dji_sdk.h"
+//************************************************
+
 namespace crazyflie_takeoff {
 
 class TakeoffControlFilter {

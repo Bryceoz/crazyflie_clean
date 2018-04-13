@@ -54,8 +54,11 @@
 #include <std_msgs/Empty.h>
 #include <math.h>
 
+//************************************************
+//These need to be included from the the original ROS sample
 #include "dji_sdk_demo/demo_flight_control.h"
 #include "dji_sdk/dji_sdk.h"
+//************************************************
 
 namespace crazyflie_takeoff {
 
@@ -69,14 +72,14 @@ public:
   // Initialize this class.
   bool Initialize(const ros::NodeHandle& n);
 
+  //call DJI takeoff helper functions
+  int DJITakeoff();
 private:
   // Load parameters and register callbacks.
   bool LoadParameters(const ros::NodeHandle& n);
   bool RegisterCallbacks(const ros::NodeHandle& n);
   bool DJITakeoffSetup(const ros::NodeHandle& n);
 
-  //call DJI takeoff helper functions
-  int TakeoffServer::DJITakeoff();
 
   // Takeoff service. Set in_flight_ flag to true.
   bool TakeoffService(std_srvs::Empty::Request& req,

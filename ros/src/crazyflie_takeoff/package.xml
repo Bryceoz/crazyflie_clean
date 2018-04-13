@@ -17,7 +17,11 @@
   <build_depend>crazyflie_utils</build_depend>
   <build_depend>tf2_ros</build_depend>
   <build_depend>message_generation</build_depend>
+  <build_depend>dji_sdk</build_depend>
+  <build_depend>dji_sdk_demo</build_depend>
 
+  <run_depend>dji_sdk</run_depend>
+  <run_depend>dji_sdk_demo</run_depend>
   <run_depend>roscpp</run_depend>
   <run_depend>visualization_msgs</run_depend>
   <run_depend>geometry_msgs</run_depend>

@@ -12,6 +12,9 @@ message("Cmake module path: ${CMAKE_MODULE_PATH}")
 
 find_package(Eigen3 REQUIRED)
 
+#Added to link djiosdk wtih dependent dji_sdk includes
+find_package(DJIOSDK REQUIRED)
+
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   visualization_msgs
@@ -20,12 +23,16 @@ find_package(catkin REQUIRED COMPONENTS
   crazyflie_utils
   tf2_ros
   message_generation
+  dji_sdk
+  dji_sdk_demo
 )
 
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES ${PROJECT_NAME}
   CATKIN_DEPENDS
+    dji_sdk
+    dji_sdk_demo 
     roscpp
     visualization_msgs
     geometry_msgs
@@ -46,6 +53,7 @@ endif()
 
 include_directories(
   include
+  ${DJIOSDK_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIR}
 )
@@ -68,6 +76,7 @@ endif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 target_link_libraries(${PROJECT_NAME}
+  ${DJIOSDK_LIBRARIES}
   ${catkin_LIBRARIES}
   ${EIGEN3_LIBRARIES}
 )
