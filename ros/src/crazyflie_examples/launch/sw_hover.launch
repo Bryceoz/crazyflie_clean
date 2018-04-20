@@ -119,7 +119,10 @@
     <param name="topics/in_flight" value="$(arg in_flight_topic)" />
   </node>
 
+
   <!-- Launch RViz with the proper config file robot descriptor. -->
+  
+  <!--
   <node name="rviz"
         pkg="rviz"
         type="rviz"
@@ -130,4 +133,6 @@
            command="$(find xacro)/xacro.py
                     $(find crazyflie_description)/urdf/crazyflie.urdf.xacro" />
   </node>
+  -->
+
 </launch>
